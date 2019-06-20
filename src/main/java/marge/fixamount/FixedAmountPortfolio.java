@@ -1,4 +1,8 @@
-package test.marge.fixamount;
+package marge.fixamount;
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -12,6 +16,8 @@ import java.util.Set;
  * 2018-06-20
  */
 public class FixedAmountPortfolio {
+
+    private static final Logger logger = LoggerFactory.getLogger(FixedAmountPortfolio.class);
 
     /**
      * 结果去重
@@ -33,9 +39,7 @@ public class FixedAmountPortfolio {
             resultSet.add(lastResult);
         } else {
             // 扣成复数说明这个方案失败
-            if (totalAmount < 0) {
-                return;
-            } else {
+            if (totalAmount > 0) {
                 for (Integer i : money) {
                     Result result = new Result();
                     result.addAll(lastResult);
@@ -56,9 +60,9 @@ public class FixedAmountPortfolio {
     public static void main(String[] args) {
         get(10, new Result());
 
-        System.out.println("size = " + resultSet.size());
+        logger.info("size = {}", resultSet.size());
         for (Result result : resultSet) {
-            System.out.println(result);
+            logger.info("result = {}", result);
         }
     }
 

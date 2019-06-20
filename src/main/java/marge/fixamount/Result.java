@@ -1,4 +1,4 @@
-package test.marge.fixamount;
+package marge.fixamount;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +15,11 @@ public class Result {
     /**
      * 用于排序的结果
      */
-    private List<Integer> result = new ArrayList<>();
+    private List<Integer> resultList = null;
+
+    public Result() {
+        resultList = new ArrayList<>();
+    }
 
     /**
      * 添加金额
@@ -23,8 +27,8 @@ public class Result {
      * @param amount
      */
     public void add(Integer amount) {
-        result.add(amount);
-        Collections.sort(result);
+        resultList.add(amount);
+        Collections.sort(resultList);
     }
 
     /**
@@ -33,8 +37,8 @@ public class Result {
      * @param lastResult
      */
     public void addAll(Result lastResult) {
-        result.addAll(lastResult.getResult());
-        Collections.sort(result);
+        resultList.addAll(lastResult.getResultList());
+        Collections.sort(resultList);
     }
 
     @Override
@@ -49,7 +53,7 @@ public class Result {
 
         if (obj instanceof Result) {
             Result r = (Result) obj;
-            return this.result.toString().equals(r.result.toString());
+            return this.resultList.toString().equals(r.resultList.toString());
         } else {
             return false;
         }
@@ -57,15 +61,15 @@ public class Result {
 
     @Override
     public int hashCode() {
-        return result.toString().hashCode();
+        return resultList.toString().hashCode();
     }
 
     @Override
     public String toString() {
-        return result.toString();
+        return resultList.toString();
     }
 
-    public List<Integer> getResult() {
-        return result;
+    public List<Integer> getResultList() {
+        return resultList;
     }
 }
