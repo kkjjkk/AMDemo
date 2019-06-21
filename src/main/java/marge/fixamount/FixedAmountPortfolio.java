@@ -40,13 +40,12 @@ public class FixedAmountPortfolio {
         } else {
             // 扣成复数说明这个方案失败
             if (totalAmount > 0) {
-                for (Integer i : money) {
+                for (Integer m : money) {
                     Result result = new Result();
-                    result.addAll(lastResult);
-                    result.add(i);
+                    result.add(lastResult, m);
 
                     // 递归
-                    get(totalAmount - i, result);
+                    get(totalAmount - m, result);
                 }
             }
         }

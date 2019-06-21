@@ -24,21 +24,13 @@ public class Result {
     /**
      * 添加金额
      *
-     * @param amount
+     * @param lastResult 上一个统计结果
+     * @param money     本次追加的金额
      */
-    public void add(Integer amount) {
-        resultList.add(amount);
-        Collections.sort(resultList);
-    }
-
-    /**
-     * 添加全部
-     *
-     * @param lastResult
-     */
-    public void addAll(Result lastResult) {
+    public void add(Result lastResult, Integer money) {
         resultList.addAll(lastResult.getResultList());
-        Collections.sort(resultList);
+        resultList.add(money);
+        Collections.sort(resultList); // 排序
     }
 
     @Override
