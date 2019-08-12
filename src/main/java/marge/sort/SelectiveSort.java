@@ -23,6 +23,7 @@ public class SelectiveSort {
     public static final void sort(int[] list) {
         for (int i = 0; i < list.length; i++) {
             int minIndex = i;// 当前最小元素下标
+            // 找出最小的下标
             for (int j = i + 1; j < list.length; j++) {
                 minIndex = list[minIndex] < list[j] ? minIndex : j;
             }
