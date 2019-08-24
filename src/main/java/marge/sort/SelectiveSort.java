@@ -39,5 +39,4 @@ public class SelectiveSort {
         sort(list);
         logger.info("sort after : {}", list);
     }
-
 }
