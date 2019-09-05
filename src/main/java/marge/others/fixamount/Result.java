@@ -1,4 +1,4 @@
-package marge.fixamount;
+package marge.others.fixamount;
 
 import java.util.ArrayList;
 import java.util.Collections;

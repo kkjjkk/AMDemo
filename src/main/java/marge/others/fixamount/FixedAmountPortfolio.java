@@ -1,4 +1,4 @@
-package marge.fixamount;
+package marge.others.fixamount;
 
 
 import org.slf4j.Logger;
