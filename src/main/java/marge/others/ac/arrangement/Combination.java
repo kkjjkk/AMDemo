@@ -32,7 +32,7 @@ public class Combination {
      * @param m      排列的步长(0≤m≤n)
      */
     public static void combination(List<Integer> list, List<Integer> result, int m) {
-        // 如果已经一组方案排列完成，进行这一组方案的比较
+        // 如果组合结果的长度已经达到要求，返回
         if (result.size() == m) {
             logger.info("组合结果：{}", JSONObject.toJSONString(result));
             return;
@@ -51,6 +51,6 @@ public class Combination {
     }
 
     public static void main(String[] args) {
-        combination(Arrays.asList(new Integer[]{1, 2, 3}), new ArrayList<>(), 3);
+        combination(Arrays.asList(new Integer[]{1, 2, 3}), new ArrayList<>(), 2);
     }
 }
