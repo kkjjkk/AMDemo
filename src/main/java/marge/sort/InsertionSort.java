@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 插入排序
+ * 插入排序（快速排序）
  *
  * @author plum
  * 2019-08-12
@@ -21,13 +21,12 @@ public class InsertionSort {
      */
     public static final void sort(int[] list) {
         if (list.length > 1) {
-            int index = 0;// 有序区当前下标
             // 从第二个元素开始,需要进行size-1轮
             for (int i = 1; i < list.length; i++) {
                 int now = list[i];// 备份当前元素
 
                 // 有序区比较
-                int j = index;
+                int j = i - 1;
                 // 复制
                 for (; j >= 0; j--) {
                     if (list[j] > now) {
@@ -38,8 +37,6 @@ public class InsertionSort {
                 }
 
                 list[j + 1] = now;// 替换
-
-                index++;// 有序区向后推一位
             }
         }
     }
