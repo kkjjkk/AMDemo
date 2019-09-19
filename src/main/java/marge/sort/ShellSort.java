@@ -30,12 +30,8 @@ public class ShellSort {
                         int temp = list[j];
 
                         int k = j - shellSize;
-                        for (; k >= 0; k -= shellSize) {// 有序区比较
-                            if (list[k] > temp) {
-                                list[k + shellSize] = list[k];
-                            } else {
-                                break;// 已经寻找到了应该所在的位置
-                            }
+                        for (; k >= 0 && list[k] > temp; k -= shellSize) {// 有序区比较
+                            list[k + shellSize] = list[k];
                         }
 
                         list[k + shellSize] = temp;// 替换
