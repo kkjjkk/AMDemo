@@ -48,7 +48,10 @@ public class DynamicProgramming {
                 int money = dens[i];// 当前面额
                 // 如果当前面额-当前货币面额在之前的结果中能找到值，说明此方案可行
                 if (j - money >= 0) {
-                    // 上一个匹配面额计算出来的最小值
+                    /*
+                     * 上一个匹配面额计算出来的最小值，
+                     * 此处就是动态规划的核心思想，每一步都要通过上一步的最优解来进行递推
+                     */
                     int lastMinCount = table[j - money][dens.length];
                     // 填充当前面额货币的货币数量
                     int nowCount = lastMinCount + 1;
