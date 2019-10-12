@@ -1,9 +1,8 @@
 package com.demo.sort;
 
+import com.demo.commons.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Random;
 
 /**
  * 归并排序
@@ -14,29 +13,6 @@ import java.util.Random;
 public class MargeSort {
 
     private static final Logger logger = LoggerFactory.getLogger(MargeSort.class);
-
-    private static final Random random = new Random();
-
-
-    /**
-     * 生成一个固定长度的随机数组
-     *
-     * @param size
-     * @return
-     */
-    public static int[] randomList(int size) {
-        if (size <= 0) {
-            return new int[]{};
-        }
-
-        int[] result = new int[size];
-
-        for (int i = 0; i < size; i++) {
-            result[i] = random.nextInt(size);
-        }
-
-        return result;
-    }
 
     /**
      * 归并排序
@@ -98,7 +74,7 @@ public class MargeSort {
     }
 
     public static void main(String[] args) {
-        int[] list = randomList(51);// 随机51个数
+        int[] list = CommonUtils.randomList(51);// 随机51个数
         logger.info("oldList : {}", list);
 
         int[] result = margeSort(list, 0, list.length - 1);
