@@ -1,4 +1,4 @@
-package marge.others.fixamount;
+package com.demo.others.ac.combination.fixamount;
 
 import java.util.ArrayList;
 import java.util.Collections;

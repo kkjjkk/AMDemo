@@ -1,18 +1,18 @@
-package marge.sort;
+package com.demo.sort;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 选择排序（又叫交换培训），最基础的排序之一
+ * 冒泡排序，最基础的排序之一
  *
  * @author plum
  * 2019-07-22
  */
-public class SelectiveSort {
+public class BubbleSort {
 
-    private static final Logger logger = LoggerFactory.getLogger(SelectiveSort.class);
+    private static final Logger logger = LoggerFactory.getLogger(BubbleSort.class);
 
     /**
      * 排序
@@ -22,14 +22,13 @@ public class SelectiveSort {
      */
     public static final void sort(int[] list) {
         for (int i = 0; i < list.length; i++) {
-            int minIndex = i;// 当前最小元素下标
-            // 找出最小的下标
             for (int j = i + 1; j < list.length; j++) {
-                minIndex = list[minIndex] < list[j] ? minIndex : j;
+                if (list[i] > list[j]) {
+                    int temp = list[j];
+                    list[j] = list[i];
+                    list[i] = temp;
+                }
             }
-            int temp = list[i];
-            list[i] = list[minIndex];
-            list[minIndex] = temp;
         }
     }
 
@@ -39,4 +38,5 @@ public class SelectiveSort {
         sort(list);
         logger.info("sort after : {}", list);
     }
+
 }

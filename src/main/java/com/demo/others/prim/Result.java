@@ -1,4 +1,4 @@
-package prim;
+package com.demo.others.prim;
 
 import com.alibaba.fastjson.JSONObject;
 

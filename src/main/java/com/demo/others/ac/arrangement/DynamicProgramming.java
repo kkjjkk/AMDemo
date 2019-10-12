@@ -1,4 +1,4 @@
-package marge.others.ac.arrangement;
+package com.demo.others.ac.arrangement;
 
 import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;

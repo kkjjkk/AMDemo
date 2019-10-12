@@ -1,4 +1,4 @@
-package prim;
+package com.demo.others.prim;
 
 /**
  * prim算法实现最小生成树
@@ -49,7 +49,6 @@ public class PrimMSTree {
 
         return result;
     }
-
 
     public static void main(String[] args) {
         // 目标图的领接矩阵

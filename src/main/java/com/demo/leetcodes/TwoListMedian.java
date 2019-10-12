@@ -1,4 +1,4 @@
-package marge.leetcodes;
+package com.demo.leetcodes;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
