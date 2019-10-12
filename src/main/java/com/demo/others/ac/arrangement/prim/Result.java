@@ -1,4 +1,4 @@
-package com.demo.others.prim;
+package com.demo.others.ac.arrangement.prim;
 
 import com.alibaba.fastjson.JSONObject;
 
