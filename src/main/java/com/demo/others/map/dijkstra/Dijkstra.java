@@ -69,7 +69,7 @@ public class Dijkstra {
             MapNode lastNode = node.getLastNode();
             Integer nodeWeight = 0;
             if (lastNode != null) {
-                nodeWeight = lastNode.getNodeWeight(node.getSpot());
+                nodeWeight = lastNode.getNodeWeight(node);
             }
             Integer weight = (node.getLastWeight() != null ? node.getLastWeight() : 0) + nodeWeight;
 
@@ -96,21 +96,26 @@ public class Dijkstra {
             logger.info("当前通路：{}", accessRoad.toString());
 
             // 遍历相邻节点
-            Set<MapNode> adjacents = node.getAdjacentNodes();
+            Map<MapNode, Integer> adjacents = node.getAdjacentNodes();
             if (adjacents != null || !adjacents.isEmpty()) {
                 // 根据当前节点到达相邻节点的距离排序
-                Map<Integer, MapNode> tempMap = new HashMap<>();
-                for (MapNode adjacent : adjacents) {
-                    tempMap.put(node.getNodeWeight(adjacent.getSpot()), adjacent);
-                }
-                List<Integer> tempList = new ArrayList<>(tempMap.keySet());
-                Collections.sort(tempList);
-
-                for (Integer integer : tempList) {
-                    MapNode adjacent = tempMap.get(integer);
+                List<Map.Entry<MapNode, Integer>> tempList = new ArrayList<>(adjacents.entrySet());
+                Collections.sort(tempList, new Comparator<Map.Entry<MapNode, Integer>>() {
+                    @Override
+                    public int compare(Map.Entry<MapNode, Integer> o1, Map.Entry<MapNode, Integer> o2) {
+                        if (o1.getValue() > o2.getValue()) {
+                            return 1;
+                        } else if (o1.getValue() < o2.getValue()) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                });
+                for (Map.Entry<MapNode, Integer> mapNodeIntegerEntry : tempList) {
+                    MapNode adjacent = mapNodeIntegerEntry.getKey();
                     // 记录暂时的数据，后续可能更新掉
                     adjacent.setLastNode(node);
-                    minWeight.put(adjacent.getSpot(), weight + node.getNodeWeight(adjacent.getSpot()));
+                    minWeight.put(adjacent.getSpot(), weight + node.getNodeWeight(adjacent));
                     adjacent.setLastWeight(weight);
 
                     // 加入队尾

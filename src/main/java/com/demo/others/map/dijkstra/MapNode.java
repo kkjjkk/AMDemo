@@ -1,7 +1,6 @@
 package com.demo.others.map.dijkstra;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -19,12 +18,11 @@ public class MapNode {
     private String spot;
     /**
      * 相邻节点
+     * key-节点
+     * value-距离相邻节点的权重
      */
-    private HashSet<MapNode> adjacentNodes;
-    /**
-     * 相邻节点权重，可以是相邻距离/到达时间等
-     */
-    private Map<String, Integer> weight;
+    private Map<MapNode, Integer> adjacentNodes;
+
     /**
      * 上个节点到start节点的总权重
      */
@@ -35,8 +33,7 @@ public class MapNode {
 
     public MapNode(String spot) {
         this.spot = spot;
-        this.weight = new HashMap<>();
-        this.adjacentNodes = new HashSet<>();
+        this.adjacentNodes = new HashMap<>();
     }
 
     /**
@@ -48,14 +45,9 @@ public class MapNode {
      */
     public MapNode add(MapNode adjacentNode, Integer nodeWeight) {
         if (this.adjacentNodes == null) {
-            this.setAdjacentNodes(new HashSet<>());
+            this.setAdjacentNodes(new HashMap<>());
         }
-        this.adjacentNodes.add(adjacentNode);
-
-        if (this.weight == null) {
-            this.setWeight(new HashMap<>());
-        }
-        this.weight.put(adjacentNode.getSpot(), nodeWeight);
+        this.adjacentNodes.put(adjacentNode, nodeWeight);
 
         return this;
     }
@@ -68,33 +60,25 @@ public class MapNode {
         this.spot = spot;
     }
 
-    public HashSet<MapNode> getAdjacentNodes() {
+    public Map<MapNode, Integer> getAdjacentNodes() {
         return adjacentNodes;
     }
 
-    public void setAdjacentNodes(HashSet<MapNode> adjacentNodes) {
+    public void setAdjacentNodes(Map<MapNode, Integer> adjacentNodes) {
         this.adjacentNodes = adjacentNodes;
-    }
-
-    public Map<String, Integer> getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Map<String, Integer> weight) {
-        this.weight = weight;
     }
 
     /**
      * 从指定节点获取权重
      *
-     * @param spot
+     * @param node
      * @return
      */
-    public Integer getNodeWeight(String spot) {
+    public Integer getNodeWeight(MapNode node) {
         Integer nodeWeight = 0;
 
-        if (this.weight != null) {
-            nodeWeight = this.weight.get(spot);
+        if (this.adjacentNodes != null) {
+            nodeWeight = this.adjacentNodes.get(node);
             if (nodeWeight == null) {
                 nodeWeight = 0;
             }
