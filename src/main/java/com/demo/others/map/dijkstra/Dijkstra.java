@@ -8,9 +8,9 @@ import java.util.*;
 /**
  * Dijkstra算法，用作计算地图两点之间最短距离/最少时间等最值问题
  * 注：
- * 1.从初始节点s开始，进行搜索，同事按照权重大小顺序搜索，当遍历到一个节点之后，继续按照最小距离原则遍历下一个s可到达的节点
- * 2.用一个权重距离列表minWeight记录开始节点s到达每个节点的最短距离
- * 3.每次遍历之后，可能s到达一个节点的最小距离会得到更新
+ * 1.从初始节点s开始，进行广度优先搜索（但是这里需要将同一层的节点进行权重排序，按顺序广度优先搜索）
+ * 2.用一个权重距离列表minWeight记录开始节点s到达每个节点的最短距离，遍历到一个节点就记录一次
+ * 3.遍历到了不同通路的相同节点，已经遍历过加入了finishList就跳过
  * 4.最终遍历完所有节点，并且得到一个minWeight列表，里面有开始节点到达每一个节点的最短距离
  */
 public class Dijkstra {
@@ -54,16 +54,12 @@ public class Dijkstra {
         while (!queue.isEmpty()) {
             MapNode node = queue.poll();
 
-            // 是否已经完成了该节点
+            // 因为在遍历节点之前，已经对每层的节点进行过排序，如果再次遍历到，说明在此通路上的节点效率一定比之前遍历到更低
             if (finishSet.contains(node)) {
                 continue;
             }
 
             logger.info("当前遍历节点{}", node.getSpot());
-
-            /*
-             * 核心步骤，选择下一个节点
-             */
 
             // 计算当前路径下该节点的权重
             MapNode lastNode = node.getLastNode();
@@ -73,18 +69,7 @@ public class Dijkstra {
             }
             Integer weight = (node.getLastWeight() != null ? node.getLastWeight() : 0) + nodeWeight;
 
-            /*
-             * 核心步骤二，更新当前节点的minWeight
-             */
-
-            // 是否有该节点的最小权重数据
-            Integer oldMinWeight = minWeight.get(node.getSpot());
-            if (oldMinWeight == null || (oldMinWeight != null && oldMinWeight > weight)) {
-                minWeight.put(node.getSpot(), weight);
-                logger.info("start到达当前节点{}最小权重被更新：oldMinWeight={}, newWeight={}", node.getSpot(), oldMinWeight, weight);
-            }
-
-            // 加入已完成节点裂变
+            // 只要遍历到本节点，就加入已完成节点裂变
             finishSet.add(node);
 
             // 打印一下通路
