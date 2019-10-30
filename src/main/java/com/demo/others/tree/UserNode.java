@@ -10,7 +10,7 @@ public class UserNode {
     /**
      * 用户ID
      */
-    private Long userId;
+    private Integer userId;
 
     /**
      * 朋友节点
@@ -25,16 +25,16 @@ public class UserNode {
     public UserNode() {
     }
 
-    public UserNode(Long userId) {
+    public UserNode(Integer userId) {
         this.userId = userId;
         this.friends = new HashSet<>();
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

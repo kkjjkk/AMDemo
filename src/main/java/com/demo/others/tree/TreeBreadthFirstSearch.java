@@ -110,14 +110,19 @@ public class TreeBreadthFirstSearch {
      */
     private static Integer isIntersection(Set<UserNode> visitedA, Set<UserNode> visitedB) {
         Integer degree = 0;
-        // 先用粗糙的方式做交集吧，后期优化
+        // TODO: 先用粗糙的方式做交集吧，后期优化
         for (UserNode userNodeA : visitedA) {
+            boolean flag = false;// 找到共同好友就弹出
             for (UserNode userNodeB : visitedB) {
                 if (userNodeA.equals(userNodeB)) {
                     degree = userNodeA.getDegree() + userNodeB.getDegree();
+                    flag = true;
                     logger.info("共同好友：{}，分别是{}度和{}度", userNodeA.getUserId(), userNodeA.getDegree(), userNodeB.getDegree());
                     break;
                 }
+            }
+            if (flag) {
+                break;
             }
         }
 
@@ -125,38 +130,28 @@ public class TreeBreadthFirstSearch {
     }
 
     public static void main(String[] args) {
-        // 生成用户树，先简单处理，后续可升级
-        UserNode userA = new UserNode(31L);
-        UserNode userA1 = new UserNode(100L);
-        UserNode userA2 = new UserNode(4001L);
-        UserNode userA3 = new UserNode(520L);
-        UserNode userA4 = new UserNode(19L);
-        userA.getFriends().add(userA1);
-        userA1.getFriends().add(userA2);
-        userA1.getFriends().add(userA3);
-        userA3.getFriends().add(userA4);
+        // 生成用户树
+        Integer userNum = 5;// 生成的用户个数
+        Random random = new Random();
+        UserNode[] userList = new UserNode[userNum];
+        for (int i = 0; i < userNum; i++) {
+            userList[i] = new UserNode(i);
+        }
+        Integer relationNum = 8;// 随机抽样生成好友关系数
+        for (int i = 0; i < relationNum; i++) {
+            UserNode userA = userList[random.nextInt(userNum)];
+            UserNode userB = userList[random.nextInt(userNum)];
+            if (userA.equals(userB)) {
+                continue;// 自己不和自己交朋友
+            }
 
-        UserNode userB = new UserNode(37L);
-        UserNode userB1 = new UserNode(101L);
-        UserNode userB2 = new UserNode(401L);
-        UserNode userB3 = new UserNode(5230L);
-        UserNode userB4 = new UserNode(1224L);
-        UserNode userB5 = new UserNode(441L);
-        UserNode userB6 = new UserNode(9196L);
-        UserNode userB7 = new UserNode(7372L);
-        UserNode userB8 = new UserNode(19L);
-        UserNode userB9 = new UserNode(35L);
-        userB.getFriends().add(userB1);
-        userB1.getFriends().add(userB2);
-        userB1.getFriends().add(userB3);
-        userB3.getFriends().add(userB4);
-        userB3.getFriends().add(userB5);
-        userB4.getFriends().add(userB6);
-        userB6.getFriends().add(userB7);
-        userB6.getFriends().add(userB8);
-        userB8.getFriends().add(userB9);
+            userA.getFriends().add(userB);
+            userB.getFriends().add(userA);
+        }
 
         // 进行双向广度优先搜索
+        UserNode userA = userList[random.nextInt(userNum)];
+        UserNode userB = userList[random.nextInt(userNum)];
         Integer degree = BidirectionalSearch(userA, userB);
 
         if (degree > 0) {
