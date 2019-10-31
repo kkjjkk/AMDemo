@@ -1,4 +1,4 @@
-package com.demo.others.ac.arrangement.prim;
+package com.demo.others.map.prim;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -17,7 +17,7 @@ public class Result {
     // 图长
     private int size;
 
-    // 顶点集合
+    // 顶点集合-最终生成的最小生成树集合
     private List<Integer> tops;
 
     // 父节点集合
