@@ -33,15 +33,15 @@ public class DijkstraTest {
         Integer result = null;
 
         List<Integer> finish = new LinkedList<>();// 用作记录已经完成的节点
-        Map<Integer, Integer> minWeight = new LinkedHashMap<>();// s点到达每个节点的最小权重
-        Map<Integer, Integer> minWeightOk = new LinkedHashMap<>();// 已确定的mw
-        minWeight.put(0, 0);// 起始点
-        minWeightOk.put(0, 0);
+        Map<Integer, Integer> minWeightTemp = new LinkedHashMap<>();// s点到达每个节点的最小权重
+        Map<Integer, Integer> minWeight = new LinkedHashMap<>();// 已确定的mw
+        minWeightTemp.put(0, 0);// 起始点
+        minWeight.put(0, 0);
 
         while (finish.size() < map.length) {
             // 寻找minWeight最小值
-            Map.Entry<Integer, Integer> minNode = findGeoWithMinWeight(minWeight);
-            minWeight.remove(minNode.getKey());// 移除
+            Map.Entry<Integer, Integer> minNode = findGeoWithMinWeight(minWeightTemp);
+            minWeightTemp.remove(minNode.getKey());// 移除
             logger.info("当前最小nw节点:{}", minNode.getKey());
 
             if (finish.contains(minNode.getKey())) {// 过滤已完成
@@ -52,21 +52,21 @@ public class DijkstraTest {
             }
 
             // 更新minWeight最小节点相邻节点的minWeight值
-            updateWeight(minNode, minWeight, minWeightOk, map);
+            updateWeight(minNode, minWeightTemp, minWeight, map);
         }
 
-        result = minWeightOk.get(nodeIndex);
+        result = minWeight.get(nodeIndex);
         return result;
     }
 
     /**
      * 寻找minWeight最小值
      *
-     * @param minWeight
+     * @param minWeightTemp
      * @return
      */
-    public static Map.Entry<Integer, Integer> findGeoWithMinWeight(Map<Integer, Integer> minWeight) {
-        List<Map.Entry<Integer, Integer>> minList = new LinkedList<>(minWeight.entrySet());
+    public static Map.Entry<Integer, Integer> findGeoWithMinWeight(Map<Integer, Integer> minWeightTemp) {
+        List<Map.Entry<Integer, Integer>> minList = new LinkedList<>(minWeightTemp.entrySet());
         // 排序
         Collections.sort(minList, nodeComparator);
         return minList.get(0);
@@ -76,11 +76,11 @@ public class DijkstraTest {
      * 更新minWeight最小节点相邻节点的minWeight值
      *
      * @param minNode
+     * @param minWeightTemp
      * @param minWeight
-     * @param minWeightOk
      * @param map
      */
-    public static void updateWeight(Map.Entry<Integer, Integer> minNode, Map<Integer, Integer> minWeight, Map<Integer, Integer> minWeightOk, int[][] map) {
+    public static void updateWeight(Map.Entry<Integer, Integer> minNode, Map<Integer, Integer> minWeightTemp, Map<Integer, Integer> minWeight, int[][] map) {
         Integer lastNodeIndex = minNode.getKey();
         Integer lastMinWeight = minNode.getValue();// 上一节点的最小minWeight
         int[] nodes = map[minNode.getKey()];
@@ -93,11 +93,11 @@ public class DijkstraTest {
                 continue;
             }
 
-            Integer oldMinWeight = minWeight.get(i);// 旧的最小权重
+            Integer oldMinWeight = minWeightTemp.get(i);// 旧的最小权重
             Integer newMinWeight = lastMinWeight + nodes[i];
             if (oldMinWeight == null || newMinWeight < oldMinWeight) {
+                minWeightTemp.put(i, newMinWeight);
                 minWeight.put(i, newMinWeight);
-                minWeightOk.put(i, newMinWeight);
             }
 
             logger.info("更新节点{}:lastMinWeight={},oldMinWeight={}, newMinWeight={}", i, lastMinWeight, oldMinWeight, newMinWeight);
