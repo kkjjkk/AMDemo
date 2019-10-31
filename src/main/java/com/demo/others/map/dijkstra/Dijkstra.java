@@ -85,17 +85,7 @@ public class Dijkstra {
             if (adjacents != null || !adjacents.isEmpty()) {
                 // 根据当前节点到达相邻节点的距离排序
                 List<Map.Entry<MapNode, Integer>> tempList = new ArrayList<>(adjacents.entrySet());
-                Collections.sort(tempList, new Comparator<Map.Entry<MapNode, Integer>>() {
-                    @Override
-                    public int compare(Map.Entry<MapNode, Integer> o1, Map.Entry<MapNode, Integer> o2) {
-                        if (o1.getValue() > o2.getValue()) {
-                            return 1;
-                        } else if (o1.getValue() < o2.getValue()) {
-                            return -1;
-                        }
-                        return 0;
-                    }
-                });
+                Collections.sort(tempList, new MapNodeComparator());
                 for (Map.Entry<MapNode, Integer> mapNodeIntegerEntry : tempList) {
                     MapNode adjacent = mapNodeIntegerEntry.getKey();
                     // 记录暂时的数据，后续可能更新掉
