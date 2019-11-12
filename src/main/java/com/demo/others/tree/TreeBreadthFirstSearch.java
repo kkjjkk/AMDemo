@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 /**
- * 树的广度优先搜索，我们以用户的
+ * 树的广度优先搜索，我们以用户的好友亲密度为例子
  */
 public class TreeBreadthFirstSearch {
 
