@@ -23,22 +23,20 @@ public class RadixSort {
         // 找出最长的字符数
         int maxSize = 0;
         for (String s : list) {
-            if (list.length > maxSize) {
-                maxSize = list.length;
+            if (s.length() > maxSize) {
+                maxSize = s.length();
             }
         }
 
+        logger.info("maxSize : {}", maxSize);
+
         // 临时数组，用于对每一位上的字母ASCII编码进行排序
         String[] temp = new String[list.length];// 临时拷贝数组
-        // 需要做maxSize轮排序
-        for (int i = 0; i < maxSize; i++) {
-            int[] charList = new int[128];// ASCII的取值范围
+        // 需要做maxSize轮排序，因为采用的是末位补0的方式，所以从后面开始排序
+        for (int i = maxSize - 1; i >= 0; i--) {
+            int[] charList = new int[122 - 97 + 1 + 1];// ASCII的取值范围
             for (int j = 0; j < list.length; j++) {
-                String s = list[j];
-                // 如果位不够，就不变动已有顺序了
-                if (s.length() > i) {
-                    charList[s.charAt(i)]++;
-                }
+                charList[getCharIndex(list[j], i)]++;
             }
 
             // 进行稳定版本的计数排序
@@ -47,29 +45,43 @@ public class RadixSort {
                 charList[j] += charList[j - 1];
             }
 
-            logger.info("第{}轮：charList={}", i, charList);
+            logger.info("{}：charList={}", i, charList);
 
             // 2.倒叙遍历list，将匹配的元素填到temp中
             for (int j = list.length - 1; j >= 0; j--) {
-                if (list[j].length() > i) {
-                    int tempIndex = charList[list[j].charAt(i)] - 1;// 计算出temp的坐标
-                    temp[tempIndex] = list[j];
-                    charList[list[j].charAt(i)]--;
-                }
+                int index = getCharIndex(list[j], i);
+                int tempIndex = charList[index] - 1;// 计算出temp的坐标
+                temp[tempIndex] = list[j];
+                charList[index]--;
             }
 
-            logger.info("第{}轮：temp={}", i, temp);
+            logger.info("{}：temp={}", i, temp);
 
             // 3.将第i轮排序的temp拷贝到list中，进行下一轮排序
             list = temp.clone();
         }
 
-
         return list;
     }
 
+    /**
+     * 获取字符串第k位字符所对应的ascii码序号
+     *
+     * @param str
+     * @param k
+     * @return
+     */
+    private static int getCharIndex(String str, int k) {
+        //如果字符串长度小于k，直接返回0，相当于给不存在的位置补0
+        if (str.length() < k + 1) {
+            return 0;
+        }
+        return str.charAt(k) - 97 + 1;// 腾出一个位置给0补位
+    }
+
+
     public static void main(String[] args) {
-        String[] list = new String[]{"abc", "aa", "bc", "ddef", "bbc", "hk", "china", "mmp", "mdzz", "xml"};
+        String[] list = new String[]{"abc", "aa", "bc", "ddef", "zbc", "hk", "china", "mmp", "mdzz", "xml"};
         logger.info("oldList : {}", JSONObject.toJSONString(list));
 
         String[] result = radixSort(list);
